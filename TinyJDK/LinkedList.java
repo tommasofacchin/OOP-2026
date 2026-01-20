@@ -25,16 +25,17 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public void add(T e) {
-        if (head == null)
+        if (head == null) {
             head = new Node(e);
-        else {
+        } else {
             Node n = head;
-            while (n != null) {
+            while (n.next != null) {
                 n = n.next;
             }
-            n = new Node(e);
+            n.next = new Node(e);
         }
     }
+
 
     @Override
     public int size() {
@@ -76,8 +77,26 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public void remove(T o) {
-        // TODO
+        if (head == null) return;
+
+        if (head.data.equals(o)) {
+            head = head.next;
+            return;
+        }
+
+        Node prev = head;
+        Node cur = head.next;
+
+        while (cur != null) {
+            if (cur.data.equals(o)) {
+                prev.next = cur.next;  
+                return;
+            }
+            prev = cur;
+            cur = cur.next;
+        }
     }
+
 
     @Override
     public void clear() {
