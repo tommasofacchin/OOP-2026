@@ -1,6 +1,3 @@
-// Scritto PO2 10 9 24.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <functional>
 #include <vector>
@@ -8,7 +5,6 @@
 
 using namespace std;
 
-// 2.a
 template <class InputIterator, class OutputIterator>
 void map(InputIterator from, InputIterator to, OutputIterator out, function<typename OutputIterator::value_type(typename InputIterator::value_type)> f)
 {
@@ -16,7 +12,6 @@ void map(InputIterator from, InputIterator to, OutputIterator out, function<type
         *out++ = f(*from++);
 }
 
-// 2.b
 template <class A, class B>
 vector<B> map(const vector<A>& v, function<B(A)> f)
 {
@@ -25,10 +20,8 @@ vector<B> map(const vector<A>& v, function<B(A)> f)
     return r;
 }
 
-// 2.c
 namespace cpp03 {
 
-    // 2.c.i
     template <class A, class B, class F>
     vector<B> map(const vector<A>& v, F f) 
     {
@@ -38,12 +31,6 @@ namespace cpp03 {
         return r;
     }
 
-    // 2.c.ii
-    // no, non possono coesistere, perch� sarebbero overload ambigui. Infatti ho dovuto metterli in un sotto-namespace a parte per far compilare questo sorgente.
-
-    // 2.c.iii
-    // bisogna usare i function object, cio� oggetti per cui � definito l'operatore di applicazione operator()
-    // esempio:
     class myfunction {
     public: 
         bool operator()(int n) { return n > 2; }
@@ -52,12 +39,9 @@ namespace cpp03 {
     void test()
     {
         vector<int> v1{ 1, 2, 3, 4, 5 };
-        vector<bool> v2 = map<int, bool>(v1, myfunction()); // senza le annotazioni esplicite dei template argument non compila (questo non � richiesto nell'esame perch� � una cosa molto sottile)
+        vector<bool> v2 = map<int, bool>(v1, myfunction());
     }
 }
-
-// main for testing
-//
 
 template <class T>
 ostream& operator<<(ostream& os, const vector<T>& v)
@@ -75,7 +59,7 @@ int main()
     vector<bool> v2(v1.size());
     map(v1.begin(), v1.end(), v2.begin(), [](int n) { return n > 2; });
 
-    v2 = map<int, bool>(v1, [](int n) { return n > 2; }); // anche qui bisogna mettere i template argument espliciti
+    v2 = map<int, bool>(v1, [](int n) { return n > 2; });
 
     cout << v1 << endl << v2 << endl;
 

@@ -1,7 +1,7 @@
 
-// Questo sorgente contiene le soluzioni dell'esame scritto di PO2 del 1/7/2022 per ciò che riguarda il quesito 3, ovvero la domanda che coinvolge C++.
+// Questo sorgente contiene le soluzioni dell'esame scritto di PO2 del 1/7/2022 per ciï¿½ che riguarda il quesito 3, ovvero la domanda che coinvolge C++.
 // I quesiti 1-2 riguardanti Java sono in un progetto IntelliJ a parte, non qui.
-// Il codice qui esposto è C++14 per qualche piccolo particolare, ma in gran parte è essenzialmente vanilla.
+// Il codice qui esposto ï¿½ C++14 per qualche piccolo particolare, ma in gran parte ï¿½ essenzialmente vanilla.
 
 #include <iostream>
 #include <vector>
@@ -22,7 +22,7 @@ private:
 	{
 		if (cnt != nullptr && --(*cnt) == 0)
 		{
-			if (pt != nullptr)	// se non punta a nulla non c'è niente da liberare
+			if (pt != nullptr)	// se non punta a nulla non c'ï¿½ niente da liberare
 			{
 				if (is_array) delete pt;
 				else delete [] pt;
@@ -65,9 +65,9 @@ public:
 	}
 
 	// subscript
-	// l'operatore di subscript è l'unica implementazione reale; tutti gli altri operatori sono implementati in funzione di questo
-	// questo approccio è poco error-prone perché concentra solamente qui il calcolo esatto dell'indirizzo usando l'offset
-	// in altre parole, l'operatore di subscript funge da API interna a basso livello; tutto il resto è costruito sopra di essa
+	// l'operatore di subscript ï¿½ l'unica implementazione reale; tutti gli altri operatori sono implementati in funzione di questo
+	// questo approccio ï¿½ poco error-prone perchï¿½ concentra solamente qui il calcolo esatto dell'indirizzo usando l'offset
+	// in altre parole, l'operatore di subscript funge da API interna a basso livello; tutto il resto ï¿½ costruito sopra di essa
 	const T& operator[](size_t i) const
 	{
 		return pt[offset + i];
@@ -75,9 +75,9 @@ public:
 	T& operator[](size_t i)
 	{
 		// capita spesso che l'implementazione const e l'implementazione non-const siano identiche
-		// in questi casi è necessario duplicare il codice, che è una pratica inelegante ed error-prone
-		// questo trucco sfrutta un giro di const cast per rimandare questa implementazione a quella const appena sopra, che è l'unica che implementiamo davvero
-		// ATTENZIONE: tutto questo NON è richiesto dal tema d'esame, lo mostriamo solamente a scopo didattico per insegnare una tecnica avanzata di non-duplicazione del codice
+		// in questi casi ï¿½ necessario duplicare il codice, che ï¿½ una pratica inelegante ed error-prone
+		// questo trucco sfrutta un giro di const cast per rimandare questa implementazione a quella const appena sopra, che ï¿½ l'unica che implementiamo davvero
+		// ATTENZIONE: tutto questo NON ï¿½ richiesto dal tema d'esame, lo mostriamo solamente a scopo didattico per insegnare una tecnica avanzata di non-duplicazione del codice
 		return const_cast<T&>(const_cast<const smart_ptr<T>&>(*this).operator[](i));
 	}
 
@@ -89,7 +89,7 @@ public:
 	}
 	T& operator*()
 	{
-		// stessa tecnica per non duplicare: chiamiamo la versione const di questo operatore definita qui sopra, che è l'unica che implementiamo davvero
+		// stessa tecnica per non duplicare: chiamiamo la versione const di questo operatore definita qui sopra, che ï¿½ l'unica che implementiamo davvero
 		return const_cast<T&>(const_cast<const smart_ptr<T>&>(*this).operator*());
 	}
 
@@ -100,15 +100,15 @@ public:
 		return &*(*this);
 		//      ^
 		// si faccia attenzione a un particolare: solo l'operatore * indicato dalla freccetta invoca l'overload definito da noi
-		// il de-reference di this dentro le parentesi tonde e l'operatore & più esterno invocano gli operatori nativi di C++, non i nostri overload
+		// il de-reference di this dentro le parentesi tonde e l'operatore & piï¿½ esterno invocano gli operatori nativi di C++, non i nostri overload
 	}
 	T* operator->()
 	{
 		// altro uso della tecnica avanzata per non duplicare l'implementazione non-const
-		// cerchiamo di capirla: lo scopo è chiamare l'implementazione const di questo operatore senza duplicare il codice
-		// 1) trasformiamo *this (che in questo scope è di tipo smart_ptr<T>&) in un const smart_ptr<T>&
-		// 2) ora che *this è castato a const, invochiamo l'operatore o il metodo che ci interessa: la risoluzione dell'overload risolverà l'implementazione const, non farà una ricorsione!
-		// 3) siccome stiamo invocando la versione const, il risultato è const: ma il nostro tipo di ritorno deve essere un T* non-const, pertanto bisogna const-castare per TOGLIERE il const
+		// cerchiamo di capirla: lo scopo ï¿½ chiamare l'implementazione const di questo operatore senza duplicare il codice
+		// 1) trasformiamo *this (che in questo scope ï¿½ di tipo smart_ptr<T>&) in un const smart_ptr<T>&
+		// 2) ora che *this ï¿½ castato a const, invochiamo l'operatore o il metodo che ci interessa: la risoluzione dell'overload risolverï¿½ l'implementazione const, non farï¿½ una ricorsione!
+		// 3) siccome stiamo invocando la versione const, il risultato ï¿½ const: ma il nostro tipo di ritorno deve essere un T* non-const, pertanto bisogna const-castare per TOGLIERE il const
 		return const_cast<T*>(const_cast<const smart_ptr<T>&>(*this).operator->());
 	}
 
@@ -135,28 +135,25 @@ public:
 		return smart_ptr<T>(*this) -= off;	
 	}
 
-	// pre
 	smart_ptr<T>& operator++()
 	{
-		// questa implementazione usa l'operator+= e basta
 		return *this += 1;
 	}
 	smart_ptr<T>& operator--()
 	{
-		return *this -= 1;	// analogo al ++ ma usa il -=
+		return *this -= 1;	
 	}
 
-	// post
 	smart_ptr<T> operator++(int)
 	{
-		smart_ptr<T> r(*this);	// copia
-		++(*this);				// pre-incrementa this: usiamo il pre-incremento affinché questa implementazione dipenda totalmente dall'implementazione di operator++
-		return r;				// ritorna la copia
+		smart_ptr<T> r(*this);	
+		++(*this);				
+		return r;				
 	}
 	smart_ptr<T> operator--(int)
 	{
 		smart_ptr<T> r(*this);
-		--(*this);				// analogo a ++
+		--(*this);				
 		return r;
 	}
 
@@ -180,7 +177,6 @@ int main()
 	smart_ptr<string> s1(sp), s2;
 	s2 = s1; 
 	size_t i = s2->find('a', 0);
-
 
 
 }

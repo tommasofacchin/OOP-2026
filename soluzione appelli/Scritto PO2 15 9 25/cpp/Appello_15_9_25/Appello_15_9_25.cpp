@@ -9,7 +9,7 @@ using namespace std;
 template <class InputIterator>
 typename InputIterator::value_type average(InputIterator begin, InputIterator end)
 {
-	typename iterator_traits<InputIterator>::value_type r{};	// chiamiamo esplcitamente il costruttore di default con la sintassi di C++14 (perché MSVS non supporta più il vanilla)
+	typename iterator_traits<InputIterator>::value_type r{};	// chiamiamo esplcitamente il costruttore di default con la sintassi di C++14 (perchï¿½ MSVS non supporta piï¿½ il vanilla)
 	//anche InputIterator::value_type andava bene
 
 	size_t n = 0;
@@ -25,5 +25,6 @@ int main()
 {
 	vector<int> v = { 1, 2, 3, 4, 5 };
 	cout << average(v.begin(), v.end()) << endl;
+	
 }
 

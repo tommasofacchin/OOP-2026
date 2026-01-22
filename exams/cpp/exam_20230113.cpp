@@ -5,13 +5,10 @@
 #include <algorithm>
 
 using namespace std;
-
-
 using real = double;
 using unary_fun = function<real(const real&)>;
 
 #define RESOLUTION (10)
-
 
 class curve
 {
@@ -29,7 +26,7 @@ public:
 
 	curve derivative() const
 	{
-		return curve(a, b, [&, dx = get_dx()](const real& x) {	// anche la capture [=] sarebbe stata sufficiente
+		return curve(a, b, [&, dx = get_dx()](const real& x) {
 			const real dy = f(x + dx) - f(x);
 			return dy / dx;
 			});
@@ -37,7 +34,7 @@ public:
 
 	curve primitive() const
 	{
-		return curve(a, b, [&, dx = get_dx()](const real& x) {	// oppure la [&]
+		return curve(a, b, [&, dx = get_dx()](const real& x) {	
 			const real y = f(x);
 			return y * dx;
 			});
@@ -68,13 +65,13 @@ public:
 			return pair<real, real>(x, c.f(x));
 		}
 
-		iterator& operator++()	// il pre-incremento modifica s� stesso e non ritorna una copia
+		iterator& operator++()	
 		{
 			x += c.get_dx();
 			return *this;
 		}
 
-		iterator operator++(int)	// il post-incremento fa una copia, modifica s� stesso e ritorna la copia
+		iterator operator++(int)	
 		{
 			auto r(*this);
 			++(*this);
@@ -83,7 +80,7 @@ public:
 
 		bool operator!=(const iterator& it) const
 		{
-			return fabs(x - it.x) >= c.get_dx();	// non si confrontano mai i float direttamente con l'operatore di uguaglianza o disuguaglianza
+			return fabs(x - it.x) >= c.get_dx();	
 		}
 	};
 
@@ -103,11 +100,7 @@ public:
 ostream& operator<<(ostream& os, const curve& c)
 {
 	os << "dom = [" << c.interval().first << ", " << c.interval().second << "] dx = " << c.get_dx() << ": " << endl;
-	/*for (const pair<real, real>& p : c)
-	{
-		const real& x = p.first, & y = p.second;
-		os << "\tf(" << x << ") = " << y << endl;
-	}*/
+	
 	for (curve::iterator it = c.begin(); it != c.end(); ++it)
 	{
 		const pair<real, real>& p = *it;

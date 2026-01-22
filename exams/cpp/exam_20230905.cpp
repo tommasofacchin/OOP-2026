@@ -1,8 +1,3 @@
-
-// Questo sorgente contiene le soluzioni dell'esame scritto di PO2 del 5/9/2023 per ci� che riguarda il quesito 2, ovvero la domanda che coinvolge C++.
-// I quesiti 1-5 riguardanti Java sono in un sorgente Java a parte, non qui.
-// Il codice C++ qui esposto � standard C++ vanilla (a.k.a. C++03), sebbene il progetto VS sia configurato con il compilatore di default C++14
-
 #include <iostream>
 #include <vector>
 
@@ -29,8 +24,4 @@ typename Container::value_type sum(const Container& c)
 	return r;
 }
 
-
-int main()
-{
-}
 
