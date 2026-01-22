@@ -133,5 +133,9 @@ public class Cheatsheet {
 
         ages.forEach((name, age) ->
                 System.out.println("Key = " + name + ", Value = " + age));
+
+        if (ages instanceof Map) {
+            System.out.println("ages is a Map with size = " + ages.size());
+        }
     }
 }
